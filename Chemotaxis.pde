@@ -1,41 +1,60 @@
- /* to do list
- rotate pan
- death anim
-arrow class stuff
- */
+/*
+pond ripples
+ expand
+ dependent on hold duration
+ fade away
+ bubbles (actual assignment)
+ dependent on hold duration (work on this next, me next time)
  
- //variable stuff
-void setup(){     
-  background(0);
-  size(640,480);
+ if time permits:
+ fishies :thumbsup:
+ */
+Bubble[] z;
+void setup() {
+  z = new Bubble[(int)(Math.random()*5)+5];
+  for (int i = 0; i < z.length; i++)
+    z[i] = new Bubble(400, 400);
+  background(190, 220, 255);
+  size(800, 800);
 }   
- void draw()   
- {    
-   //move and show the bacteria   
- }  
-class Arrow{
-  int myX, myY, direction;
-  boolean tweaking, fast;
-  Arrow(){
-    
+
+
+void draw() {
+  background(190, 220, 255);
+  for (int i = 0; i < z.length; i++) {
+    z[i].floatAway();
+    z[i].show();
   }
-  int direc(){
-    direction = (int)(Math.random()*4);
-    return direction;
+}  
+
+
+
+void mousePressed() {
+  z = new Bubble[(int)(Math.random()*5)+5];
+  for (int i = 0; i < z.length; i++)
+    z[i] = new Bubble(mouseX, mouseY);
+}
+
+
+class Bubble {     
+  int size, myX, myY, blue, green, fade, fadeFactor;
+  Bubble(int x, int y) {
+    myX = x;
+    myY = y;
+    fade = 500;
+    fadeFactor = (int)(Math.random()*15)+5;
+    size = (int)(Math.random()*36)+24;
+    blue = (int)(Math.random()*45)+210;
+    green = (int)(Math.random()*15)+180;
   }
-  boolean tweak(){
-    tweaking = ((int)(Math.random()*4)==0);
-    return tweaking;
+  void floatAway() {
+    myX += (int)(Math.random()*10)-5;
+    myY += (int)(Math.random()*10)-5;
+    fade -= .6*fadeFactor;
   }
-  boolean speed(){
-    fast = ((int)(Math.random()*4)==0);
-    return fast;
+  void show() {
+    noStroke();
+    fill(110, green, blue, fade);
+    ellipse(myX, myY, size, size);
   }
-  void move(){
-    if (direction == 0);{
-      
-    }
-  }
-  void show(){
-  }
- }//Arrow class
+}    
