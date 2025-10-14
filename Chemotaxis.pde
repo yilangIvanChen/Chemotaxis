@@ -54,7 +54,7 @@ void mouseReleased() {
     ripples[i] = new Ripple(mouseX, mouseY, storage);
   z = new Bubble[(int)(Math.random()*3)+3];
   for (int i = 0; i < z.length; i++)
-    z[i] = new Bubble(mouseX, mouseY, 200, 200, storage);
+    z[i] = new Bubble(mouseX, mouseY, 400, 400, storage);
   release = true;
 }
 
@@ -75,10 +75,13 @@ class Bubble {
   }
   void floatToward(int x, int y) {
     if (myX <= x)
-      myX += (int)(Math.random()*(7+held*2))-(held*2);
+      myX += (int)(Math.random()*(7+held*2))-(4+held);
     if (myX > x)
-      myX += (int)(Math.random()*(7+held*2))-(held*2);
-    myY += (int)(Math.random()*(7+held*2))-(7+held*2)/2;
+      myX -= (int)(Math.random()*(7+held*2))-(4+held);
+    if (myY <= y)
+      myY += (int)(Math.random()*(7+held*2))-(4+held);
+    if (myY > y)
+      myX -= (int)(Math.random()*(7+held*2))-(4+held);
     fade -= .35*fadeFactor;
   }
   void show() {
