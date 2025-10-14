@@ -39,7 +39,7 @@ void draw() {
       ripples[i].show();
     }
     for (int i = 0; i < z.length; i++) {
-      z[i].floatAway();
+      z[i].floatToward();
       z[i].show();
     }
     heldTime -= 3;
@@ -54,32 +54,36 @@ void mouseReleased() {
     ripples[i] = new Ripple(mouseX, mouseY, storage);
   z = new Bubble[(int)(Math.random()*3)+3];
   for (int i = 0; i < z.length; i++)
-    z[i] = new Bubble(mouseX, mouseY, storage);
+    z[i] = new Bubble(mouseX, mouseY, 200, 200, storage);
   release = true;
 }
 
 ///////////////////////class stuff///////////////////////////////////////////////
 
 class Bubble {     
-  int size, myX, myY, blue, green, fade, fadeFactor, held;
-  Bubble(int x, int y, int z) {
-    myX = x;
-    myY = y;
+  int size, myX, myY, fade, fadeFactor, held, shade, targetX, targetY;
+  Bubble(int x1, int y1, int x2, int y2, int z) {
+    myX = x1;
+    myY = y1;
+    targetX = x2;
+    targetY = y2;
     fade = 350;
     fadeFactor = (int)(Math.random()*15)+10;
     size = (int)(Math.random()*24)+z*2;
-    blue = (int)(Math.random()*45)+210;
-    green = (int)(Math.random()*30)+170;
+    shade = color(110, (int)(Math.random()*30)+170, (int)(Math.random()*45)+210);
     held = z;
   }
-  void floatAway() {
-    myX += (int)(Math.random()*(7+held*2))-(7+held*2)/2;
+  void floatToward(int x, int y) {
+    if (myX <= x)
+      myX += (int)(Math.random()*(7+held*2))-(held*2);
+    if (myX > x)
+      myX += (int)(Math.random()*(7+held*2))-(held*2);
     myY += (int)(Math.random()*(7+held*2))-(7+held*2)/2;
     fade -= .35*fadeFactor;
   }
   void show() {
     noStroke();
-    fill(110, green, blue, fade);
+    fill(shade, fade);
     ellipse(myX, myY, size, size);
   }
 }    
