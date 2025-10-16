@@ -1,9 +1,3 @@
-/*
- if time permits:
- fishies :thumbsup: (likely not)
- ambience (make it not as empty, just decorative stuff)
- */
-
 /////////////////////////variables///////////////////////////////////
 
 Bubble[] z;
@@ -11,6 +5,8 @@ Ripple[] ripples;
 int heldTime = 0;
 boolean release = false;
 int storage;
+int pullX = 400;
+int pullY = 400;
 
 ///////////////////////////drawing stuff/////////////////////////////
 
@@ -25,6 +21,8 @@ void draw() {
   fill(100, 140, 170, heldTime*6);
   noStroke();
   ellipse(mouseX, mouseY, heldTime*8, heldTime*8);
+  fill(100, 190, 140);
+  ellipse(pullX, pullY, 80, 80);
   if (mousePressed) {
     heldTime++;
     release = false;
@@ -39,7 +37,7 @@ void draw() {
       ripples[i].show();
     }
     for (int i = 0; i < z.length; i++) {
-      z[i].floatToward();
+      z[i].floatToward(pullX, pullY);
       z[i].show();
     }
     heldTime -= 3;
@@ -56,6 +54,13 @@ void mouseReleased() {
   for (int i = 0; i < z.length; i++)
     z[i] = new Bubble(mouseX, mouseY, 400, 400, storage);
   release = true;
+}
+
+void keyPressed() {
+  if (key == ' ') {
+    pullX = mouseX;
+    pullY = mouseY;
+  }
 }
 
 ///////////////////////class stuff///////////////////////////////////////////////
@@ -75,13 +80,13 @@ class Bubble {
   }
   void floatToward(int x, int y) {
     if (myX <= x)
-      myX += (int)(Math.random()*(7+held*2))-(4+held);
+      myX += (int)(Math.random()*(7+held*2));
     if (myX > x)
-      myX -= (int)(Math.random()*(7+held*2))-(4+held);
+      myX -= (int)(Math.random()*(7+held*2));
     if (myY <= y)
-      myY += (int)(Math.random()*(7+held*2))-(4+held);
+      myY += (int)(Math.random()*(7+held*2));
     if (myY > y)
-      myX -= (int)(Math.random()*(7+held*2))-(4+held);
+      myY -= (int)(Math.random()*(7+held*2));
     fade -= .35*fadeFactor;
   }
   void show() {
